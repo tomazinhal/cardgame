@@ -1,5 +1,6 @@
 use uuid::Uuid;
 use serde::{de::DeserializeOwned, Serialize, Deserialize};
+use chrono::{DateTime, Utc};
 
 trait Snapshot: DeserializeOwned + Serialize {
     fn to_str(&self) -> String {
@@ -15,6 +16,7 @@ trait Snapshot: DeserializeOwned + Serialize {
 struct Item {
     name: String,
     id: Uuid,
+    timestamp: DateTime<Utc>,
 }
 
 impl Item {
@@ -22,6 +24,7 @@ impl Item {
         Item {
             name: new_name.to_string(),
             id: Uuid::new_v4(),
+            timestamp: Utc::now(),
         }
     }
 }
@@ -68,5 +71,3 @@ fn main() {
     let de_list: ItemList = ItemList::from_str(serialized.as_str());
     println!("{:?}", de_list);
 }
-
-
