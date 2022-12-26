@@ -1,60 +1,9 @@
-use uuid::Uuid;
-use serde::{de::DeserializeOwned, Serialize, Deserialize};
-use chrono::{DateTime, Utc};
+mod common;
+use crate::common::models::{Item, ItemList};
+use crate::common::snapshot::Snapshot;
 
-trait Snapshot: DeserializeOwned + Serialize {
-    fn to_str(&self) -> String {
-        serde_json::to_string(&self).unwrap()
-    }
-    fn from_str(serialized: &str) -> Self {
-        serde_json::from_str(serialized).unwrap()
-    }
-}
-
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Item {
-    name: String,
-    id: Uuid,
-    timestamp: DateTime<Utc>,
-}
-
-impl Item {
-    fn new(new_name: &str) -> Item {
-        Item {
-            name: new_name.to_string(),
-            id: Uuid::new_v4(),
-            timestamp: Utc::now(),
-        }
-    }
-}
-
-impl Snapshot for Item { }
-
-#[derive(Debug, Serialize, Deserialize)]
-struct ItemList {
-    name: String,
-    list: Vec<Item>,
-    id: Uuid,
-
-}
-
-impl ItemList {
-    fn new(list_name: &str) -> ItemList {
-        ItemList {
-            name: list_name.to_string(),
-            id: Uuid::new_v4(),
-            list: vec![],
-        }
-    }
-
-    fn add_item(&mut self, item: Item) {
-        self.list.push(item);
-    }
-}
-
-impl Snapshot for ItemList { }
-
+impl Snapshot for Item {}
+impl Snapshot for ItemList {}
 
 fn main() {
     println!("Hello, world!");
