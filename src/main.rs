@@ -1,9 +1,19 @@
 mod common;
 use crate::common::models::{Item, ItemList};
-use crate::common::snapshot::Snapshot;
+use crate::common::snapshot::{Cache, Snapshot};
 
-impl Snapshot for Item {}
-impl Snapshot for ItemList {}
+impl Snapshot for Item {
+    fn get_key(&self) -> String {
+        self.id.to_string()
+    }
+}
+impl Snapshot for ItemList {
+    fn get_key(&self) -> String {
+        self.id.to_string()
+    }
+}
+impl Cache for Item {}
+impl Cache for ItemList {}
 
 fn main() {
     println!("Hello, world!");
@@ -19,4 +29,6 @@ fn main() {
     println!("Serialized list: {:?}", serialized);
     let de_list: ItemList = ItemList::from_str(serialized.as_str());
     println!("{:?}", de_list);
+    let it_worked = de_list.store();
+    ItemList::load(de_list.get_key());
 }

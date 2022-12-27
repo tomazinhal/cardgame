@@ -5,7 +5,7 @@ use uuid::Uuid;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Item {
     name: String,
-    id: Uuid,
+    pub id: Uuid,
     timestamp: DateTime<Utc>,
 }
 
@@ -17,13 +17,17 @@ impl Item {
             timestamp: Utc::now(),
         }
     }
+
+    fn id(&self) -> Uuid {
+        self.id
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemList {
     name: String,
     list: Vec<Item>,
-    id: Uuid,
+    pub id: Uuid,
 }
 
 impl ItemList {
@@ -33,6 +37,10 @@ impl ItemList {
             id: Uuid::new_v4(),
             list: vec![],
         }
+    }
+
+    fn id(&self) -> Uuid {
+        self.id
     }
 
     pub fn add_item(&mut self, item: Item) {
