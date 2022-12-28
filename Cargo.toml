@@ -3,6 +3,15 @@ name = "model-rs"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+# The name of the native library. This is the name which will be used in Python to import the
+# library (i.e. `import string_sum`). If you change this, you must also change the name of the
+# `#[pymodule]` in `src/lib.rs`.
+name = "moders"
+
+# "cdylib" is necessary to produce a shared library for Python to import from.
+crate-type = ["cdylib"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -10,8 +19,9 @@ chrono = { version = "0.4.23", features = ["serde"] }
 redis = { version = "0.22.1", features = ["tokio-comp"] }
 serde = { version = "1.0.151", features = ["derive"] }
 serde_json = "1.0.91"
+pyo3 = { version = "0.17.3", features = ["extension-module"] }
+
 
 [dependencies.uuid]
 version = "1.2.2"
 features = ["v4", "fast-rng", "macro-diagnostics", "serde"]
-

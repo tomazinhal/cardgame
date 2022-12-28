@@ -43,3 +43,4 @@ Apparently working :)
 ## TODO
 
 [ ] Use Pyo3 bindings to make this a module available in Python.
+[ ] Add Makefile
