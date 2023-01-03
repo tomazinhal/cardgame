@@ -40,6 +40,21 @@ Apparently working :)
 4) "foo"
 ```
 
+A wrapper function `Foo` works quite well. But I don't think it's how it should
+be done.
+
+```py
+from moders import Foo
+foo = Foo("foo")
+foo.to_json()
+foo.snapshot_store()
+# get the id
+
+f = Foo.snapshot_load("<the id>")
+f.to_json() == Foo.to_json()
+Foo.from_json(f.to_json())
+```
+
 ## TODO
 
 [ ] Use Pyo3 bindings to make this a module available in Python.
