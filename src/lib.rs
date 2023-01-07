@@ -2,7 +2,6 @@ use pyo3::prelude::*;
 mod common;
 use common::models::ItemList;
 use common::snapshot::{Cache, Snapshot};
-use uuid::Uuid;
 
 /// Formats the sum of two numbers as string.
 #[pyfunction]
@@ -28,6 +27,10 @@ impl Foo {
         Foo {
             item_list: ItemList::new(new_name),
         }
+    }
+
+    fn get_id(&self) -> PyResult<String> {
+        Ok(self.item_list.get_key())
     }
 
     fn snapshot_store(&self) -> PyResult<bool> {

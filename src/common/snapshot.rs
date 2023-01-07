@@ -1,4 +1,4 @@
-use redis::{Commands, RedisError, RedisResult};
+use redis::{Commands, RedisError};
 use serde::{de::DeserializeOwned, Serialize};
 
 pub trait Snapshot: DeserializeOwned + Serialize {
