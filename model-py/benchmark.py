@@ -38,7 +38,7 @@ class ItemList(object):
     itemlist = rl.SequenceField(Item, required=False)
 
     def add_item(self, item: Item):
-        self.items.append(item)
+        self.itemlist.append(item)
 
 
 class Bar:
@@ -47,6 +47,9 @@ class Bar:
 
     def get_id(self):
         return str(self.itemlist.id)
+
+    def add_item(self, name: str):
+        self.itemlist.add_item(Item(name))
 
     def to_json(self):
         d = rl.to_dict(self.itemlist)
@@ -67,18 +70,22 @@ class Bar:
         return rl.from_json(serialized)
 
 
-def py():
+def example_py(num_items: int = 1):
     bar = Bar("bar")
     bar.to_json()
+    for num in range(num_items):
+        bar.add_item(f"item_{num}")
     bar.snapshot_store()
     b = Bar.snapshot_load(key=bar.get_id())
     b.to_json() == bar.to_json()
     Bar.from_json(b.to_json())
 
 
-def rs():
+def example_rs(num_items: int = 1):
     foo = Foo("foo")
     foo.to_json()
+    for num in range(num_items):
+        foo.add_item(f"item_{num}")
     foo.snapshot_store()
     f = Foo.snapshot_load(foo.get_id())
     f.to_json() == foo.to_json()
@@ -86,5 +93,5 @@ def rs():
 
 
 if __name__ == "__main__":
-    py()
-    rs()
+    example_py()
+    example_rs()

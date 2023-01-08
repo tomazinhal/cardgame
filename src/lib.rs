@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 mod common;
-use common::models::ItemList;
+use common::models::{Item, ItemList};
 use common::snapshot::{Cache, Snapshot};
 
 /// Formats the sum of two numbers as string.
@@ -31,6 +31,10 @@ impl Foo {
 
     fn get_id(&self) -> PyResult<String> {
         Ok(self.item_list.get_key())
+    }
+
+    fn add_item(&mut self, item_name: &str) {
+        self.item_list.add_item(Item::new(item_name))
     }
 
     fn snapshot_store(&self) -> PyResult<bool> {
